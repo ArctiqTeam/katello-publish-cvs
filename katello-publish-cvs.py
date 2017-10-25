@@ -122,7 +122,7 @@ def main():
 
             if last_published is None:
                 last_published = "2000-01-01 00:00:00 UTC"
-            last_published = datetime.strptime(last_published, '%Y-%m-%d  %X')
+            last_published = datetime.strptime(last_published, '%Y-%m-%d  %X %z')
             print last_published
             need_publish = False
             for repo in cv["repositories"]:
