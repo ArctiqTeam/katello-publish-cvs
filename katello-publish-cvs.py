@@ -5,6 +5,7 @@ import sys
 import time
 from datetime import datetime
 import requests
+import getpass
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -17,6 +18,7 @@ KATELLO_API = URL + "katello/api/"
 POST_HEADERS = {'content-type': 'application/json'}
 # Default credentials to login to Satellite 6
 USERNAME = "admin"
+PASSWORD = getpass.getpass()
 # PASSWORD = "changeme"
 # Ignore SSL for now
 SSL_VERIFY = False
