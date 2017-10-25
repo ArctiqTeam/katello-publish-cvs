@@ -98,12 +98,12 @@ def main():
     org_id =org_json["id"]
     print 'Organization \"' + ORG_NAME + ' has ID: ' + str(org_id)
 
-    # Fill dictionary of Lifecycle Environments as {name : id}
-    # envs_json = get_json(KATELLO_API + "organizations/" + str(org_id) + "/environments?per_page=999")
-    # for env in envs_json["results"]:
-    #     ENVIRONMENTS[env["name"]] = env["id"]
+    Fill dictionary of Lifecycle Environments as {name : id}
+    envs_json = get_json(KATELLO_API + "organizations/" + str(org_id) + "/environments?per_page=999")
+    for env in envs_json["results"]:
+        ENVIRONMENTS[env["name"]] = env["id"]
 
-    # print "Lifecycle environments: " + str(ENVIRONMENTS)
+    print "Lifecycle environments: " + str(ENVIRONMENTS)
 
     # Get all non-composite CVs from the API
     cvs_json = get_json(SAT_API + "organizations/" + str(org_id) + "/content_views?noncomposite=true&nondefault=true")
@@ -116,7 +116,7 @@ def main():
     # Publish new versions of the CVs that have new content in the underlying repos
     published_cv_ids = []
     for cv in cvs_json["results"]:
-        if cv["name"] == "cv-sat5-beta":
+        # if cv["name"] == "cv-sat5-beta":
             last_published = cv["last_published"]
 
             print cv["name"] + " was published on " + cv["last_published"]
@@ -131,7 +131,7 @@ def main():
                 for task in sync_tasks_json["results"]:
                     if task["input"]["repository"]["id"] == repo["id"]:
                         # ended_at = datetime.strptime(task["ended_at"], '%Y-%m-%dT%H:%M:%S.000Z')
-                        print task["ended_at"]
+                        # print task["ended_at"]
                         ended_at = parser.parse(task["ended_at"])
 
                         if ended_at > last_published and task["input"]["contents_changed"]:
