@@ -135,15 +135,15 @@ def main():
                         ended_at = parser.parse(task["ended_at"])
 
                         if ended_at > last_published and task["input"]["contents_changed"]:
-                            print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
+                            # print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
                             need_publish = True
 
-            # if need_publish:
-            #     print "Publish " + cv["name"] + " because some of its content has changed"
-            #     post_json(KATELLO_API + "content_views/" + str(cv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
-            #     published_cv_ids.append(cv["id"])
-            # else:
-            #     print cv["name"] + " doesn't need to be published"
+            if need_publish:
+                print "Publish " + cv["name"] + " because some of its content has changed"
+                # post_json(KATELLO_API + "content_views/" + str(cv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
+                published_cv_ids.append(cv["id"])
+            else:
+                print cv["name"] + " doesn't need to be published"
 
     wait_for_publish(10)
 
