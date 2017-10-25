@@ -117,10 +117,13 @@ def main():
     for cv in cvs_json["results"]:
         if cv["name"] == "cv-sat5-beta":
             last_published = cv["last_published"]
+
+            print cv["name"] + "was published on" + cv["last_published"]
+
             if last_published is None:
                 last_published = "2000-01-01 00:00:00 UTC"
-            last_published = datetime.strptime(last_published, '%Y-%m-%d  %X %Z')
-
+            last_published = datetime.strptime(last_published, '%Y-%m-%d  %X')
+            print last_published
             need_publish = False
             for repo in cv["repositories"]:
 
