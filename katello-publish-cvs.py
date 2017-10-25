@@ -125,13 +125,13 @@ def main():
                 last_published = "2000-01-01 00:00:00 UTC"
             # last_published = datetime.strptime(last_published, "%Y-%m-%d %H:%M:%S %Z")
             last_published = parser.parse(last_published)
-            print last_published
             need_publish = False
             for repo in cv["repositories"]:
 
                 for task in sync_tasks_json["results"]:
                     if task["input"]["repository"]["id"] == repo["id"]:
                         # ended_at = datetime.strptime(task["ended_at"], '%Y-%m-%dT%H:%M:%S.000Z')
+                        print task["ended_at"]
                         ended_at = parser.parse(task["ended_at"])
 
                         if ended_at > last_published and task["input"]["contents_changed"]:
