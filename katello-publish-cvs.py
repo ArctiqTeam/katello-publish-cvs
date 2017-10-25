@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 import requests
 import getpass
+from dateutil import parser
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -118,11 +119,11 @@ def main():
         if cv["name"] == "cv-sat5-beta":
             last_published = cv["last_published"]
 
-            print cv["name"] + "was published on" + cv["last_published"]
+            print cv["name"] + " was published on " + cv["last_published"]
 
             if last_published is None:
                 last_published = "2000-01-01 00:00:00 UTC"
-            last_published = datetime.strptime(last_published, '%Y-%m-%d  %X %z')
+            last_published = datetime.strptime(last_published, '%Y-%m-%d %X %Z')
             print last_published
             need_publish = False
             for repo in cv["repositories"]:
