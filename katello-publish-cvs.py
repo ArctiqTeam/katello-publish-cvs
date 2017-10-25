@@ -123,25 +123,26 @@ def main():
 
             if last_published is None:
                 last_published = "2000-01-01 00:00:00 UTC"
-            last_published = datetime.strptime(last_published, "%Y-%m-%d %H:%M:%S %Z")
+            # last_published = datetime.strptime(last_published, "%Y-%m-%d %H:%M:%S %Z")
+            last_published = parser.parse(last_published)
             print last_published
-            need_publish = False
-            for repo in cv["repositories"]:
-
-                for task in sync_tasks_json["results"]:
-                    if task["input"]["repository"]["id"] == repo["id"]:
-                        ended_at = datetime.strptime(task["ended_at"], '%Y-%m-%dT%H:%M:%S.000Z')
-
-                        if ended_at > last_published and task["input"]["contents_changed"]:
-                            print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
-                            need_publish = True
-
-            if need_publish:
-                print "Publish " + cv["name"] + " because some of its content has changed"
-                post_json(KATELLO_API + "content_views/" + str(cv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
-                published_cv_ids.append(cv["id"])
-            else:
-                print cv["name"] + " doesn't need to be published"
+            # need_publish = False
+            # for repo in cv["repositories"]:
+            #
+            #     for task in sync_tasks_json["results"]:
+            #         if task["input"]["repository"]["id"] == repo["id"]:
+            #             ended_at = datetime.strptime(task["ended_at"], '%Y-%m-%dT%H:%M:%S.000Z')
+            #
+            #             if ended_at > last_published and task["input"]["contents_changed"]:
+            #                 print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
+            #                 need_publish = True
+            #
+            # if need_publish:
+            #     print "Publish " + cv["name"] + " because some of its content has changed"
+            #     post_json(KATELLO_API + "content_views/" + str(cv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
+            #     published_cv_ids.append(cv["id"])
+            # else:
+            #     print cv["name"] + " doesn't need to be published"
 
     wait_for_publish(10)
 
