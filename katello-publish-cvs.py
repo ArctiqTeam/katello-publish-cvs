@@ -107,12 +107,10 @@ def main():
     # Get all non-composite CVs from the API
     cvs_json = get_json(SAT_API + "organizations/" + str(org_id) + "/content_views?noncomposite=true&nondefault=true")
 
-    print "CVs" + str(cvs_json)
+    print "CVs" + json.dumps(cvs_json, indent=2)
 
     # Get all sync tasks
     sync_tasks_json = get_json(URL + sync_tasks)
-
-    print "Sync Tasks" + str(sync_tasks_json)
 
     # Publish new versions of the CVs that have new content in the underlying repos
     published_cv_ids = []
