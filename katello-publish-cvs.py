@@ -115,7 +115,7 @@ def main():
     # Publish new versions of the CVs that have new content in the underlying repos
     published_cv_ids = []
     for cv in cvs_json["results"]:
-        if cv["name"] == "tim-test":
+        if cv["name"] == "cv-sat5-beta":
             last_published = cv["last_published"]
             if last_published is None:
                 last_published = "2000-01-01 00:00:00 UTC"
