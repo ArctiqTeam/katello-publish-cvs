@@ -18,7 +18,8 @@ SAT_API = URL + "katello/api/v2/"
 KATELLO_API = URL + "katello/api/"
 POST_HEADERS = {'content-type': 'application/json'}
 # Default credentials to login to Satellite 6
-USERNAME = "admin"
+# USERNAME = "admin"
+USERNAME = raw_input("Enter your Satellite username: ")
 PASSWORD = getpass.getpass()
 # PASSWORD = "changeme"
 # Ignore SSL for now
@@ -26,7 +27,7 @@ SSL_VERIFY = False
 # Name of the organization to be either created or used
 ORG_NAME = "CDCUG"
 # Dictionary for Life Cycle Environments ID and name
-ENVIRONMENTS = { 'demo-DEV': 5 }
+ENVIRONMENTS = { }
 # Search string to list currently running publish tasks
 publish_tasks = "foreman_tasks/api/tasks?search=utf8=%E2%9C%93&search=label+%3D+Actions%3A%3AKatello%3A%3AContentView%3A%3APublish+and+state+%3D+running"
 sync_tasks = "foreman_tasks/api/tasks?utf8=%E2%9C%93&per_page=1000&search=label+%3D+Actions%3A%3AKatello%3A%3ARepository%3A%3ASync+and+state+%3D+stopped+and+result+%3D+success"
@@ -119,7 +120,7 @@ def main():
         # if cv["name"] == "cv-sat5-beta":
             last_published = cv["last_published"]
 
-            print cv["name"] + " was published on " + cv["last_published"]
+            # print cv["name"] + " was published on " + cv["last_published"]
 
             if last_published is None:
                 last_published = "2000-01-01 00:00:00 UTC"
