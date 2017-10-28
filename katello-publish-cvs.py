@@ -109,56 +109,46 @@ def main():
     # Get all non-composite CVs from the API
     cvs_json = get_json(SAT_API + "organizations/" + str(org_id) + "/content_views?noncomposite=true&nondefault=true")
 
-    # print "CVs" + json.dumps(cvs_json, indent=2)
-
     # Get all sync tasks
     sync_tasks_json = get_json(URL + sync_tasks)
 
     # Publish new versions of the CVs that have new content in the underlying repos
     published_cv_ids = []
     for cv in cvs_json["results"]:
-        # if cv["name"] == "cv-sat5-beta":
-            last_published = cv["last_published"]
+        last_published = cv["last_published"]
 
-            # print cv["name"] + " was published on " + cv["last_published"]
+        if last_published is None:
+            last_published = "2000-01-01 00:00:00 UTC"
+        last_published = parser.parse(last_published)
+        need_publish = False
+        for repo in cv["repositories"]:
 
-            if last_published is None:
-                last_published = "2000-01-01 00:00:00 UTC"
-            # last_published = datetime.strptime(last_published, "%Y-%m-%d %H:%M:%S %Z")
-            last_published = parser.parse(last_published)
-            need_publish = False
-            for repo in cv["repositories"]:
+            for task in sync_tasks_json["results"]:
+                if task["input"]["repository"]["id"] == repo["id"]:
+                    ended_at = parser.parse(task["ended_at"])
 
-                for task in sync_tasks_json["results"]:
-                    if task["input"]["repository"]["id"] == repo["id"]:
-                        # ended_at = datetime.strptime(task["ended_at"], '%Y-%m-%dT%H:%M:%S.000Z')
-                        # print task["ended_at"]
-                        ended_at = parser.parse(task["ended_at"])
+                    if ended_at > last_published and task["input"]["contents_changed"]:
+                        print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
+                        need_publish = True
 
-                        if ended_at > last_published and task["input"]["contents_changed"]:
-                            # print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
-                            need_publish = True
-
-            if need_publish:
-                print "Publish " + cv["name"] + " because some of its content has changed"
-                # post_json(KATELLO_API + "content_views/" + str(cv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
-                published_cv_ids.append(cv["id"])
-            else:
-                print cv["name"] + " doesn't need to be published"
+        if need_publish:
+            print "Publish " + cv["name"] + " because some of its content has changed"
+            # post_json(KATELLO_API + "content_views/" + str(cv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
+            published_cv_ids.append(cv["id"])
+        else:
+            print cv["name"] + " doesn't need to be published"
 
     wait_for_publish(10)
 
     # Get all CCVs from the API
     ccvs_json = get_json(SAT_API + "organizations/" + str(org_id) + "/content_views?composite=true")
 
-    # print(json.dumps(ccvs_json, indent=2))
     # Publish a new version of all CCs that contain any of the published CVs
     ccv_ids_to_promote = []
     for ccv in ccvs_json["results"]:
         new_component_ids = []
         ccv_updated = False
         for component in ccv["components"]:
-    #         add and if statement here to check against the upated cv list
             if component["content_view"]["id"] in published_cv_ids:
                 cv_json = get_json(KATELLO_API + "content_views/" + str(component["content_view"]["id"]))
 
