@@ -151,7 +151,7 @@ def main():
     # Get all CCVs from the API
     ccvs_json = get_json(SAT_API + "organizations/" + str(org_id) + "/content_views?composite=true")
 
-    print(json.dumps(ccvs_json, indent=2))
+    # print(json.dumps(ccvs_json, indent=2))
     # Publish a new version of all CCs that contain any of the published CVs
     ccv_ids_to_promote = []
     for ccv in ccvs_json["results"]:
