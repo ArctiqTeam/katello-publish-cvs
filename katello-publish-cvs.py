@@ -165,16 +165,18 @@ def main():
                 for version in cv_json["versions"]:
                     if ENVIRONMENTS["Library"] in version["environment_ids"]:
                         new_component_ids.append(version["id"])
+                        ccv_updated = True
 
-        print "Update " + ccv["name"] + " with new component IDs: " + str(new_component_ids)
-        # put_json(KATELLO_API + "content_views/" + str(ccv["id"]), json.dumps({"component_ids": new_component_ids}))
+        if ccv_updated:
+            print "Update " + ccv["name"] + " with new component IDs: " + str(new_component_ids)
+            # put_json(KATELLO_API + "content_views/" + str(ccv["id"]), json.dumps({"component_ids": new_component_ids}))
 
-        print "Publish new version of " + ccv["name"]
-        # post_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
+            print "Publish new version of " + ccv["name"]
+            # post_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
 
-        # Get the ID of the version in Library
-        version_in_library_id = get_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/content_view_versions?environment_id=" + str(ENVIRONMENTS["Library"]))["results"][0]["id"]
-        ccv_ids_to_promote.append(str(version_in_library_id))
+            # Get the ID of the version in Library
+            version_in_library_id = get_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/content_view_versions?environment_id=" + str(ENVIRONMENTS["Library"]))["results"][0]["id"]
+            ccv_ids_to_promote.append(str(version_in_library_id))
 
     wait_for_publish(10)
 
