@@ -159,7 +159,7 @@ def main():
 
         for component in ccv["components"]:
     #         add and if statement here to check against the upated cv list
-            # if str(component["content_view"]["id"]) in published_cv_ids:
+            if str(component["content_view"]["id"]) in published_cv_ids:
                 cv_json = get_json(KATELLO_API + "content_views/" + str(component["content_view"]["id"]))
 
                 for version in cv_json["versions"]:
