@@ -156,7 +156,7 @@ def main():
     ccv_ids_to_promote = []
     for ccv in ccvs_json["results"]:
         new_component_ids = []
-
+        ccv_updated = False
         for component in ccv["components"]:
     #         add and if statement here to check against the upated cv list
             if component["content_view"]["id"] in published_cv_ids:
@@ -167,7 +167,7 @@ def main():
                         new_component_ids.append(version["id"])
                         ccv_updated = True
 
-        if ccv_updated:
+        if ccv_updated == True:
             print "Update " + ccv["name"] + " with new component IDs: " + str(new_component_ids)
             # put_json(KATELLO_API + "content_views/" + str(ccv["id"]), json.dumps({"component_ids": new_component_ids}))
 
