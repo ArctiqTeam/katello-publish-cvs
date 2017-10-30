@@ -3,7 +3,6 @@
 import json
 import sys
 import time
-from datetime import datetime
 import requests
 import getpass
 from dateutil import parser
@@ -151,7 +150,7 @@ def main():
         for component in ccv["components"]:
             if component["content_view"]["id"] in published_cv_ids:
                 cv_json = get_json(KATELLO_API + "content_views/" + str(component["content_view"]["id"]))
-
+                print cv_json
                 for version in cv_json["versions"]:
                     if ENVIRONMENTS["Library"] in version["environment_ids"]:
                         new_component_ids.append(version["id"])
@@ -170,7 +169,7 @@ def main():
 
     wait_for_publish(10)
 
-    # print "Promote all effected CCVs to TEST environment"
+    print "Promote all effected CCVs to TEST environment"
     # for ccv_id in ccv_ids_to_promote:
     #     post_json(KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["TEST"]}))
 
