@@ -170,13 +170,14 @@ def main():
     wait_for_publish(10)
 
     print "Promote all affected CVs to TEST environment"
-    # for cv_id in published_cv_ids:
+    for cv_id in published_cv_ids:
     #     post_json(KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["TEST"]}))
+        print KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["TEST"]})
 
     print "Promote all affected CCVs to TEST environment"
-    # for ccv_id in ccv_ids_to_promote:
+    for ccv_id in ccv_ids_to_promote:
     #     post_json(KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["TEST"]}))
-
+        print KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["TEST"]})
 
 if __name__ == "__main__":
     main()
