@@ -127,7 +127,7 @@ def main():
                     ended_at = parser.parse(task["ended_at"])
 
                     if ended_at > last_published and task["input"]["contents_changed"]:
-                        print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
+                        # print "A sync task for repo \"" + repo["name"] + "\" downloaded new content and ended after " + cv["name"] + " was published last time"
                         need_publish = True
 
         if need_publish:
