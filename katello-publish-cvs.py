@@ -169,15 +169,15 @@ def main():
 
     wait_for_publish(10)
 
-    print "Promote all affected CVs to TEST environment"
+    print "Promote all affected CVs to DEV environment"
     for cv_id in published_cv_ids:
-    #     post_json(KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["TEST"]}))
-        print KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["TEST"]})
+    #     post_json(KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["DEV"]}))
+        print KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["DEV"]})
 
-    print "Promote all affected CCVs to TEST environment"
+    print "Promote all affected CCVs to DEV environment"
     for ccv_id in ccv_ids_to_promote:
-    #     post_json(KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["TEST"]}))
-        print KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["TEST"]})
+    #     post_json(KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["DEV"]}))
+        print KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["DEV"]})
 
 if __name__ == "__main__":
     main()
