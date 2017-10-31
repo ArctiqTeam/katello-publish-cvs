@@ -133,6 +133,7 @@ def main():
         if need_publish:
             print "Publish " + cv["name"] + " because some of its content has changed"
             # post_json(KATELLO_API + "content_views/" + str(cv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
+            print KATELLO_API + "content_views/" + str(cv["id"]) + "/publish" + " body is:" + json.dumps({"description": "Automatic publish over API"})
             published_cv_ids.append(cv["id"])
         else:
             print cv["name"] + " doesn't need to be published"
@@ -159,9 +160,11 @@ def main():
         if ccv_updated == True:
             print "Update " + ccv["name"] + " with new component IDs: " + str(new_component_ids)
             # put_json(KATELLO_API + "content_views/" + str(ccv["id"]), json.dumps({"component_ids": new_component_ids}))
+            print KATELLO_API + "content_views/" + str(ccv["id"]) + " body is:" + json.dumps({"component_ids": new_component_ids})
 
             print "Publish new version of " + ccv["name"]
             # post_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
+            print KATELLO_API + "content_views/" + str(ccv["id"]) + "/publish" + " body is:" + json.dumps({"description": "Automatic publish over API"}))
 
             # Get the ID of the version in Library
             ccv_version_in_library_id = get_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/content_view_versions?environment_id=" + str(ENVIRONMENTS["Library"]))["results"][0]["id"]
@@ -172,12 +175,12 @@ def main():
     print "Promote all affected CVs to DEV environment"
     for cv_id in published_cv_ids:
     #     post_json(KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["DEV"]}))
-        print KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["DEV"]})
+        print KATELLO_API + "content_view_versions/" + str(cv_id) + "/promote" + " body is:" + json.dumps({"environment_id": ENVIRONMENTS["DEV"]})
 
     print "Promote all affected CCVs to DEV environment"
     for ccv_id in ccv_ids_to_promote:
     #     post_json(KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote", json.dumps({"environment_id": ENVIRONMENTS["DEV"]}))
-        print KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote" + json.dumps({"environment_id": ENVIRONMENTS["DEV"]})
+        print KATELLO_API + "content_view_versions/" + str(ccv_id) + "/promote" + " body is:" + json.dumps({"environment_id": ENVIRONMENTS["DEV"]})
 
 if __name__ == "__main__":
     main()
