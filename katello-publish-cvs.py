@@ -150,7 +150,7 @@ def main():
         for component in ccv["components"]:
             if component["content_view"]["id"] in published_cv_ids:
                 cv_json = get_json(KATELLO_API + "content_views/" + str(component["content_view"]["id"]))
-                print cv_json
+                print(json.dumps(cv_json, indent=2))
                 for version in cv_json["versions"]:
                     if ENVIRONMENTS["Library"] in version["environment_ids"]:
                         new_component_ids.append(version["id"])
