@@ -164,7 +164,7 @@ def main():
 
             print "Publish new version of " + ccv["name"]
             # post_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/publish", json.dumps({"description": "Automatic publish over API"}))
-            print KATELLO_API + "content_views/" + str(ccv["id"]) + "/publish" + " body is:" + json.dumps({"description": "Automatic publish over API"}))
+            print KATELLO_API + "content_views/" + str(ccv["id"]) + "/publish" + " body is:" + json.dumps({"description": "Automatic publish over API"})
 
             # Get the ID of the version in Library
             ccv_version_in_library_id = get_json(KATELLO_API + "content_views/" + str(ccv["id"]) + "/content_view_versions?environment_id=" + str(ENVIRONMENTS["Library"]))["results"][0]["id"]
